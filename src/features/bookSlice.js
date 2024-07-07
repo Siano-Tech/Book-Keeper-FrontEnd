@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 
 const initialState = {
   books: [],
+  orgBooks: [],
   status: null,
   error: null,
   navigateTo: null,
@@ -46,6 +47,21 @@ const bookSlice = createSlice({
     clearStatus(state) {
       state.status = null;
       state.error = null;
+    },
+    filterBooks(state, action) {
+      toast.loading('Filtering books...');
+      const {gradeFilter, subjectFilter} = action.payload;
+      try {
+        const filteredBooks = state.books.filter((e) => {
+          if(gradeFilter.includes(e.grade) && subjectFilter.includes(e.subject.toLowerCase())) {
+            return e
+          }
+        })
+        state.books = (gradeFilter.length > 0 && subjectFilter.length > 0) ? filteredBooks : state.orgBooks;
+      } catch (error) {
+        state.books = state.orgBooks;
+      }
+      toast.remove();
     }
   },
   extraReducers: (builder) => {
@@ -59,6 +75,7 @@ const bookSlice = createSlice({
         if(action.payload.status === 200 || action.payload.status === 201) {
           state.status = action.payload.data.message;
           state.books.push(action.payload.data.book);
+          state.orgBooks = state.books;
           state.navigateTo = '/';
           toast.success(state.status);
         } else {
@@ -78,6 +95,7 @@ const bookSlice = createSlice({
       .addCase(fetchBooks.fulfilled, (state, action) => {
         if(action.payload.status === 200 || action.payload.status === 201) {
           state.books = action.payload.data;
+          state.orgBooks = state.books;
         } else {
           state.status = action.payload.data.message;
           toast.error(state.status);
@@ -99,6 +117,7 @@ const bookSlice = createSlice({
           state.status = action.payload.data.message;
           const bookId = action.payload.id;
           state.books = state.books.filter((book) => book.id !== bookId);
+          state.orgBooks = state.books;
           toast.success(state.status);
         } else {
           state.status = action.payload.data.message;
@@ -114,4 +133,5 @@ const bookSlice = createSlice({
   },
 });
 
+export const { filterBooks } = bookSlice.actions;
 export default bookSlice.reducer;

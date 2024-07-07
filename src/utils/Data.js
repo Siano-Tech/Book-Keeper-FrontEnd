@@ -5,7 +5,7 @@ export const filters = [
         options: [
             { value: '10', label: '10', checked: false },
             { value: '9', label: '9', checked: false },
-            { value: '8', label: '8', checked: true },
+            { value: '8', label: '8', checked: false },
             { value: '7', label: '7', checked: false },
             { value: '6', label: '6', checked: false },
             { value: '5', label: '5', checked: false },
@@ -17,7 +17,7 @@ export const filters = [
         options: [
             { value: 'maths', label: 'Maths', checked: false },
             { value: 'science', label: 'Science', checked: false },
-            { value: 'physics', label: 'Physics', checked: true },
+            { value: 'physics', label: 'Physics', checked: false },
             { value: 'chemistry', label: 'Chemistry', checked: false },
             { value: 'biology', label: 'Biology', checked: false },
             { value: 'social', label: 'Social', checked: false },

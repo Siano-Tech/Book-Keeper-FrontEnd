@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchBooks } from '../features/bookSlice';
+import { fetchBooks, filterBooks } from '../features/bookSlice';
 import { Link } from 'react-router-dom';
 import {
   Dialog,
@@ -33,8 +33,10 @@ const HomePage = () => {
   const [showRequestDialog, setShowRequestDialog] = useState(false);
   const [requestingBook, setRequestingBook] = useState(null);
   const [showInfoDialog, setShowInfoDialog] = useState(false);
+  const [selectedFilters, setSelectedFilters] = useState({});
 
   useEffect(() => {
+    setSelectedFilters(filters);
     dispatch(fetchBooks());
   }, []);
 
@@ -57,6 +59,27 @@ const HomePage = () => {
       bookDetails: requestingBook,
     }
     dispatch(requestBook(requestingDetails))
+  }
+
+  const onChangeFilters = (filterName, filterValue, e) => {
+    const checked = e.target.checked;
+    let gradeFilter = []; 
+    let subjectFilter = [];
+    // console.log({filterName, filterValue, value: checked});
+    if(filterName === 'Grade') {
+      selectedFilters[0].options.map((e) => {
+        if(e.value === filterValue) e.checked = checked
+      })
+    } else {
+      selectedFilters[1].options.map((e) => {
+        if(e.value === filterValue) e.checked = checked
+      })
+    }
+
+    gradeFilter = selectedFilters[0].options.map(e => e.checked ? e.value : null).filter(e => e !== null).join(',');
+    subjectFilter = selectedFilters[1].options.map(e => e.checked ? e.value : null).filter(e => e !== null).join(',');
+    // console.log(gradeFilter, subjectFilter);
+    dispatch(filterBooks({gradeFilter, subjectFilter}));
   }
 
   // return (
@@ -147,6 +170,7 @@ const HomePage = () => {
                                   type="checkbox"
                                   defaultChecked={option.checked}
                                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                  onChange={(e) => onChangeFilters(section.name, option.value, e)}
                                 />
                                 <label
                                   htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
@@ -230,7 +254,7 @@ const HomePage = () => {
 
             <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
               {/* Filters */}
-              {books.length > 0 && <form className="hidden lg:block">
+              {<form className="hidden lg:block">
                 {/* <h3 className="sr-only">Categories</h3>
                 <ul role="list" className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
                   {subCategories.map((category) => (
@@ -267,6 +291,7 @@ const HomePage = () => {
                                   type="checkbox"
                                   defaultChecked={option.checked}
                                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                  onChange={(e) => onChangeFilters(section.name, option.value, e)}
                                 />
                                 <label
                                   htmlFor={`filter-${section.id}-${optionIdx}`}
@@ -326,6 +351,9 @@ const HomePage = () => {
                       </div>
                     </div>
                   ))}
+                  {books.length === 0 && <h2 id="products-heading">
+                    No Books Available
+                  </h2>}
                 </div>
               </div>
             </div>
