@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-axios.defaults.baseURL = 'http://192.168.0.101:5000';
 
 const initialState = {
   books: [],

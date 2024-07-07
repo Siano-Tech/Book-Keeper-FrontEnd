@@ -11,6 +11,8 @@ import Navbar from './layout/Navbar';
 import { Toaster } from 'react-hot-toast';
 import { AboutPage } from './pages/AboutPage';
 import { CreditsBanner } from './pages/CreditsBanner';
+// importing api config
+import './config/api';
 
 function App() {
   return (
