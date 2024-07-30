@@ -32,7 +32,12 @@ const routes = [
     isHidden: !isLoggedIn()
   },
   {
-    label: 'Donate Books',
+    label: 'Available Books',
+    to: '/',
+    isHidden: !isLoggedIn()
+  },
+  {
+    label: 'Sign In',
     to: '/login',
     isHidden: isLoggedIn()
   },
@@ -56,7 +61,7 @@ export default function Navbar() {
     window.location.reload();
   }
 
-  if(location && location.pathname === "/login") {
+  if(location && (location.pathname === "/login" || location.pathname === "/forgot-password")) {
     return null
   }
 

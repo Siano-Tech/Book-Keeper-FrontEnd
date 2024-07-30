@@ -13,6 +13,7 @@ import { AboutPage } from './pages/AboutPage';
 import { CreditsBanner } from './pages/CreditsBanner';
 // importing api config
 import './config/api';
+import ForgotPasswordPage from './pages/ForgotPassword';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path="/" exact element={<HomePage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/add-book" element={<AddBookPage />} />
             <Route path="/requests" element={<RequestsPage />} />
             <Route path="/about" element={<AboutPage />} />

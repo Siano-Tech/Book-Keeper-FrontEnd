@@ -21,6 +21,7 @@ import { requestBook } from '../features/requestSlice';
 import { getUser } from '../utils/Utils';
 import BookInfoDialog from '../components/BookInfoDialog';
 import { filters, sortOptions, subCategories } from '../utils/Data';
+import placeholder from '../assets/placeholder.jpg'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -63,6 +64,7 @@ const HomePage = () => {
 
   const onChangeFilters = (filterName, filterValue, e) => {
     const checked = e.target.checked;
+    let typeFilter = []; 
     let gradeFilter = []; 
     let subjectFilter = [];
     // console.log({filterName, filterValue, value: checked});
@@ -78,7 +80,7 @@ const HomePage = () => {
 
     gradeFilter = selectedFilters[0].options.map(e => e.checked ? e.value : null).filter(e => e !== null).join(',');
     subjectFilter = selectedFilters[1].options.map(e => e.checked ? e.value : null).filter(e => e !== null).join(',');
-    // console.log(gradeFilter, subjectFilter);
+    console.log(gradeFilter, subjectFilter);
     dispatch(filterBooks({gradeFilter, subjectFilter}));
   }
 
@@ -316,7 +318,7 @@ const HomePage = () => {
                     <div key={product.id} className="group relative" onClick={(e) => {e.stopPropagation(); setShowInfoDialog(!showInfoDialog)}}>
                       <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md lg:aspect-none group-hover:opacity-75 lg:h-80">
                         <img
-                          src={product.image}
+                          src={product.image !== '' ? product.image : placeholder}
                           alt={product.imageAlt}
                           className="h-full w-full object-contain object-center lg:h-full lg:w-full"
                         />

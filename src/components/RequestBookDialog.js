@@ -113,6 +113,23 @@ export default function RequestBookDialog(props) {
                           />
                         </div>
                       </div>
+                      <div className="mt-5 flex gap-x-3">
+                        <div className="flex h-6 items-center">
+                          <input
+                            id="request-consent"
+                            name="request-consent"
+                            type="checkbox"
+                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                            required
+                          />
+                        </div>
+                        <div className="text-sm leading-6">
+                          <label htmlFor="request-consent" className="font-medium text-gray-900">
+                            I agree to share my contact details with the donor
+                          </label>
+                          {/* <p className="text-gray-500">Get notified when a candidate applies for a job.</p> */}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

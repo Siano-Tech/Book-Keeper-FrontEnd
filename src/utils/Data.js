@@ -1,14 +1,35 @@
 export const filters = [
     {
+        id: 'book-type',
+        name: 'Type of Book',
+        options: [
+            { value: 'Textbook', label: 'Textbook', checked: false },
+            { value: 'Notebook', label: 'Notebook', checked: false },
+            { value: 'Guide', label: 'Guide', checked: false },
+            { value: 'Stationary', label: 'Stationary', checked: false },
+            { value: 'Question Bank', label: 'Question Bank', checked: false },
+            { value: 'Question Paper', label: 'Question Paper', checked: false },
+            { value: 'Others', label: 'Others', checked: false },
+        ],
+    },
+    {
         id: 'grade',
         name: 'Grade',
         options: [
+            { value: '12', label: '12', checked: false },
+            { value: '11', label: '11', checked: false },
             { value: '10', label: '10', checked: false },
             { value: '9', label: '9', checked: false },
             { value: '8', label: '8', checked: false },
             { value: '7', label: '7', checked: false },
             { value: '6', label: '6', checked: false },
             { value: '5', label: '5', checked: false },
+            { value: '4', label: '4', checked: false },
+            { value: '3', label: '3', checked: false },
+            { value: '2', label: '2', checked: false },
+            { value: '1', label: '1', checked: false },
+            { value: 'UKG', label: 'UKG', checked: false },
+            { value: 'LKG', label: 'LKG', checked: false },
         ],
     },
     {
