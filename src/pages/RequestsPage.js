@@ -32,7 +32,7 @@ const RequestsPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
         {requests.map((request) => (
           <div key={request.id} className="flex flex-col p-4 border rounded shadow">
-            <h2 className="text-xl font-bold">{request?.bookDetails?.subject}</h2>
+            <h2 className="text-xl font-bold">{request?.bookDetails?.subject} | {request?.bookDetails?.grade} | ID : {request?.bookDetails?.bookId?.substr(request?.bookDetails?.bookId.length-5, 5)}</h2>
             <p className='mt-5'>Requested by: {request.name}</p>
             <a href={`mailto:${request.email}`} className='mt-3'>Email: <span className='text-indigo-600'>{request.email}</span></a>
             <a href={`tel:${request.email}`} className='my-3'>Phone: <span className='text-indigo-600'>{request.phoneNo}</span></a>

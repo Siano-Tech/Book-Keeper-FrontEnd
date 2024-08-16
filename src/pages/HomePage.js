@@ -34,6 +34,7 @@ const HomePage = () => {
   const [showRequestDialog, setShowRequestDialog] = useState(false);
   const [requestingBook, setRequestingBook] = useState(null);
   const [showInfoDialog, setShowInfoDialog] = useState(false);
+  const [bookInfo, setBookInfoDialog] = useState();
   const [selectedFilters, setSelectedFilters] = useState({});
 
   useEffect(() => {
@@ -67,21 +68,26 @@ const HomePage = () => {
     let typeFilter = []; 
     let gradeFilter = []; 
     let subjectFilter = [];
-    // console.log({filterName, filterValue, value: checked});
+    console.log({filterName, filterValue, value: checked});
     if(filterName === 'Grade') {
-      selectedFilters[0].options.map((e) => {
+      selectedFilters[1].options.map((e) => {
+        if(e.value === filterValue) e.checked = checked
+      })
+    } else if(filterName === 'Subject') {
+      selectedFilters[2].options.map((e) => {
         if(e.value === filterValue) e.checked = checked
       })
     } else {
-      selectedFilters[1].options.map((e) => {
+      selectedFilters[0].options.map((e) => {
         if(e.value === filterValue) e.checked = checked
       })
     }
 
-    gradeFilter = selectedFilters[0].options.map(e => e.checked ? e.value : null).filter(e => e !== null).join(',');
-    subjectFilter = selectedFilters[1].options.map(e => e.checked ? e.value : null).filter(e => e !== null).join(',');
-    console.log(gradeFilter, subjectFilter);
-    dispatch(filterBooks({gradeFilter, subjectFilter}));
+    gradeFilter = selectedFilters[1].options.map(e => e.checked ? e.value : null).filter(e => e !== null).join(',');
+    subjectFilter = selectedFilters[2].options.map(e => e.checked ? e.value : null).filter(e => e !== null).join(',');
+    typeFilter = selectedFilters[0].options.map(e => e.checked ? e.value : null).filter(e => e !== null).join(',');
+    console.log(gradeFilter, subjectFilter, typeFilter);
+    dispatch(filterBooks({gradeFilter, subjectFilter, typeFilter}));
   }
 
   // return (
@@ -315,7 +321,7 @@ const HomePage = () => {
               <div className="lg:col-span-3">
                 <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                   {books.map((product) => (
-                    <div key={product.id} className="group relative" onClick={(e) => {e.stopPropagation(); setShowInfoDialog(!showInfoDialog)}}>
+                    <div key={product.id} className="group relative" onClick={(e) => {e.stopPropagation(); setShowInfoDialog(!showInfoDialog); setBookInfoDialog(product)}}>
                       <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md lg:aspect-none group-hover:opacity-75 lg:h-80">
                         <img
                           src={product.image !== '' ? product.image : placeholder}
@@ -328,11 +334,11 @@ const HomePage = () => {
                           <h3 className="text-sm text-gray-700">
                             <a href={product.href}>
                               <span aria-hidden="true" className="absolute " />
-                              {product.subject}
+                              {product.subject} | {product.grade}
                             </a>
                           </h3>
                           <p className="mt-1 text-sm text-gray-500">{product.color}</p>
-                          <p className="text-sm font-medium text-gray-900">{product.grade}</p>
+                          <p className="text-sm font-medium text-gray-900">ID : {product?.bookId.substr(product?.bookId.length-5, 5)}</p>
                         </div>
                         <button 
                           onClick={(e) => onRequestBook(e, product)}
@@ -345,14 +351,14 @@ const HomePage = () => {
                           toggleRequestDialog={() => setShowRequestDialog(false)} 
                           submiteRequestDetails={submiteRequestDetails}
                         />
-                        <BookInfoDialog 
-                          showInfoDialog={showInfoDialog} 
-                          toggleInfoDialog={() => setShowInfoDialog(false)} 
-                          book={product}
-                        />
                       </div>
                     </div>
                   ))}
+                  <BookInfoDialog 
+                    showInfoDialog={showInfoDialog} 
+                    toggleInfoDialog={() => setShowInfoDialog(false)} 
+                    book={bookInfo}
+                  />
                   {books.length === 0 && <h2 id="products-heading">
                     No Books Available
                   </h2>}

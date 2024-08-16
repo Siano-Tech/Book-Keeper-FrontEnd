@@ -50,14 +50,47 @@ const bookSlice = createSlice({
     },
     filterBooks(state, action) {
       toast.loading('Filtering books...');
-      const {gradeFilter, subjectFilter} = action.payload;
+      const {gradeFilter, subjectFilter, typeFilter} = action.payload;
       try {
-        const filteredBooks = state.books.filter((e) => {
-          if(gradeFilter.includes(e.grade) && subjectFilter.includes(e.subject.toLowerCase())) {
-            return e
+        let filteredBooks = [];
+        if(gradeFilter.length !== 0) {
+          filteredBooks = state.orgBooks.filter((e) => {
+            if(gradeFilter.includes(e.grade)) {
+              return e
+            }
+          })
+        }
+        if(subjectFilter.length !== 0) {
+          if(filteredBooks.length === 0) {
+            filteredBooks = state.orgBooks.filter((e) => {
+              if(subjectFilter.includes(e.subject.toLowerCase())) {
+                return e
+              }
+            })
+          } else {
+            filteredBooks = filteredBooks.filter((e) => {
+              if(subjectFilter.includes(e.subject.toLowerCase())) {
+                return e
+              }
+            })
           }
-        })
-        state.books = (gradeFilter.length > 0 && subjectFilter.length > 0) ? filteredBooks : state.orgBooks;
+        }
+        if(typeFilter.length !== 0) {
+          if(filteredBooks.length === 0) {
+            filteredBooks = state.orgBooks.filter((e) => {
+              if(typeFilter.includes(e.subject.toLowerCase())) {
+                return e
+              }
+            })
+          } else {
+            filteredBooks = filteredBooks.filter((e) => {
+              if(typeFilter.includes(e.subject.toLowerCase())) {
+                return e
+              }
+            })
+          }
+        }
+        state.books = (gradeFilter.length > 0 || subjectFilter.length > 0 || typeFilter.length > 0) ? filteredBooks : state.orgBooks;
       } catch (error) {
         state.books = state.orgBooks;
       }

@@ -34,7 +34,7 @@ const routes = [
   {
     label: 'Available Books',
     to: '/',
-    isHidden: !isLoggedIn()
+    isHidden: false
   },
   {
     label: 'Sign In',

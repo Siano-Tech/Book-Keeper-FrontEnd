@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser, registerUser } from '../features/userSlice';
 import { useNavigate } from 'react-router-dom';
-import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftCircleIcon, EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -136,7 +136,13 @@ const LoginPage = () => {
               {!hasAccount ? 'Sign Up' : 'Login'}
             </button>
           </div>
-          <div className="flex justify-end text-sm">
+          <div className="flex justify-between text-sm">
+            <div className="text-sm">
+              <div className="flex font-semibold text-indigo-600 hover:text-indigo-500 cursor-pointer" onClick={() => navigate('/')}>
+                <ArrowLeftCircleIcon className='w-5 h-5 text-primary mr-1' />
+                <span>Home</span>
+              </div>
+            </div>
             <span className="text-center text-sm text-gray-500">
               {hasAccount ? 'Not a member yet? ': 'Already have an account? '}
               <span

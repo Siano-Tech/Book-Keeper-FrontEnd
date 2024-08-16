@@ -7,11 +7,14 @@ import {
 } from "@headlessui/react";
 import { HeartIcon } from "@heroicons/react/24/outline";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
+import placeholder from '../assets/placeholder.jpg'
 
 export default function BookInfoDialog(props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
+
+  console.log(props)
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -56,8 +59,8 @@ export default function BookInfoDialog(props) {
                       <div className="mt-5">
                         <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md lg:aspect-none group-hover:opacity-75 lg:h-80">
                             <img
-                            src={props?.book?.image}
-                            alt={props?.book?.imageAlt}
+                            src={props?.book?.image.length === 0 ? placeholder : props?.book?.image}
+                            // alt={props?.book?.imageAlt}
                             className="h-full w-full object-contain object-center lg:h-full lg:w-full"
                             />
                         </div>
@@ -68,6 +71,14 @@ export default function BookInfoDialog(props) {
                           className="block text-sm font-medium leading-6 text-gray-900"
                         >
                           Subject : {props?.book?.subject}
+                        </label>
+                      </div>
+                      <div className="mt-2">
+                        <label
+                          htmlFor="name"
+                          className="block text-sm font-medium leading-6 text-gray-900"
+                        >
+                          Book Id : {props?.book?.bookId.substr(props?.book?.bookId.length-5, 5)}
                         </label>
                       </div>
                       <div className="mt-2">

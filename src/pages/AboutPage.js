@@ -28,6 +28,7 @@ export const AboutPage = () => {
                 <div className="mt-2">
                     "This idea has arisen from the struggle of procuring  desperately needed study material faced by myself and many more students over the years."
                 </div>
+                <h1 className='mt-5 color-primary text-xl'>- Anjan Bhat</h1>
                 <div className='mt-2'>
                     Note:
                     <span>
@@ -38,7 +39,6 @@ export const AboutPage = () => {
                         </ul>
                     </span>
                 </div>
-                <h1 className='mt-5 color-primary text-xl'>- Anjan Bhat</h1>
             </section>
         </main>
     )
