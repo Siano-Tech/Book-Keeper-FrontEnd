@@ -86,6 +86,14 @@ export default function BookInfoDialog(props) {
                           htmlFor="name"
                           className="block text-sm font-medium leading-6 text-gray-900"
                         >
+                          Book Type : {props?.book?.bookType}
+                        </label>
+                      </div>
+                      <div className="mt-2">
+                        <label
+                          htmlFor="name"
+                          className="block text-sm font-medium leading-6 text-gray-900"
+                        >
                           Grade : {props?.book?.grade}
                         </label>
                       </div>

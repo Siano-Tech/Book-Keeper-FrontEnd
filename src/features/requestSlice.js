@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 
 const initialState = {
   requests: [],
+  unreadRequests: false,
   status: null,
   error: null,
 };
@@ -98,6 +99,7 @@ const requestSlice = createSlice({
         toast.remove();
         if(action.payload.status === 200 || action.payload.status === 201) {
           state.requests = action.payload.data;
+          state.unreadRequests = action.payload.data.filter(e => e.read === false)?.length > 0;
         } else {
           state.status = action.payload.data.message;
           toast.error(state.status);

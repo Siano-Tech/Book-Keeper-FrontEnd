@@ -63,13 +63,13 @@ const bookSlice = createSlice({
         if(subjectFilter.length !== 0) {
           if(filteredBooks.length === 0) {
             filteredBooks = state.orgBooks.filter((e) => {
-              if(subjectFilter.includes(e.subject.toLowerCase())) {
+              if(subjectFilter.toLowerCase().includes(e.subject.toLowerCase())) {
                 return e
               }
             })
           } else {
             filteredBooks = filteredBooks.filter((e) => {
-              if(subjectFilter.includes(e.subject.toLowerCase())) {
+              if(subjectFilter.toLowerCase().includes(e.subject.toLowerCase())) {
                 return e
               }
             })
@@ -78,13 +78,13 @@ const bookSlice = createSlice({
         if(typeFilter.length !== 0) {
           if(filteredBooks.length === 0) {
             filteredBooks = state.orgBooks.filter((e) => {
-              if(typeFilter.includes(e.subject.toLowerCase())) {
+              if(typeFilter.toLowerCase().includes(e.bookType.toLowerCase())) {
                 return e
               }
             })
           } else {
             filteredBooks = filteredBooks.filter((e) => {
-              if(typeFilter.includes(e.subject.toLowerCase())) {
+              if(typeFilter.toLowerCase().includes(e.bookType.toLowerCase())) {
                 return e
               }
             })

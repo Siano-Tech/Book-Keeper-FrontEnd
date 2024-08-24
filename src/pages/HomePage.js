@@ -17,7 +17,7 @@ import {
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
 import RequestBookDialog from '../components/RequestBookDialog';
-import { requestBook } from '../features/requestSlice';
+import { fetchRequests, requestBook } from '../features/requestSlice';
 import { getUser } from '../utils/Utils';
 import BookInfoDialog from '../components/BookInfoDialog';
 import { filters, sortOptions, subCategories } from '../utils/Data';
@@ -36,10 +36,14 @@ const HomePage = () => {
   const [showInfoDialog, setShowInfoDialog] = useState(false);
   const [bookInfo, setBookInfoDialog] = useState();
   const [selectedFilters, setSelectedFilters] = useState({});
+  const user = useSelector((state) => state.user.user);
 
   useEffect(() => {
     setSelectedFilters(filters);
     dispatch(fetchBooks());
+    if (user) {
+      dispatch(fetchRequests(user.uid));
+    }
   }, []);
 
   const onRequestBook = (e, book) => {

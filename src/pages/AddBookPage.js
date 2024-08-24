@@ -141,7 +141,7 @@ const AddBookPage = () => {
                     className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
-                <p className="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about the book.</p>
+                <p className="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about the book like publisher, edition etc…</p>
               </div>
 
               <div className="col-span-full">
@@ -181,7 +181,7 @@ const AddBookPage = () => {
                 </div>
               </div>
 
-              <div className="col-span-full flex gap-x-3">
+              {/* <div className="col-span-full flex gap-x-3">
                 <div className="flex h-6 items-center">
                   <input
                     id="request-consent"
@@ -195,9 +195,8 @@ const AddBookPage = () => {
                   <label htmlFor="request-consent" className="font-medium text-gray-900">
                     I agree to share my contact details with the receiver
                   </label>
-                  {/* <p className="text-gray-500">Get notified when a candidate applies for a job.</p> */}
                 </div>
-              </div>
+              </div> */}
               <div className="col-span-full flex gap-x-3">
                 <div className="flex h-6 items-center">
                   <input

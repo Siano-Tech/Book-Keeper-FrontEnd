@@ -39,7 +39,7 @@ const LoginPage = () => {
           alt="Your Company"
         />
         <h2 className="mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Bishop Cotton School
+          Bishop Cotton Boy’s School
         </h2>
         <h2 className="mt-3 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
           Sign in to your account

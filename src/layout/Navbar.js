@@ -9,7 +9,8 @@ import {
 } from '@heroicons/react/24/outline'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { getUser, isLoggedIn, onLogout } from '../utils/Utils'
-import { ArrowRightStartOnRectangleIcon } from '@heroicons/react/24/solid'
+import { ArrowRightStartOnRectangleIcon, ExclamationCircleIcon } from '@heroicons/react/24/solid'
+import { useSelector } from 'react-redux'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -24,6 +25,7 @@ const routes = [
   {
     label: 'Requests',
     to: '/requests',
+    type: 'requests',
     isHidden: !isLoggedIn()
   },
   {
@@ -51,7 +53,7 @@ const routes = [
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+  const {unreadRequests} = useSelector(state => state.requests);
   let location = useLocation();
   let navigate = useNavigate();
 
@@ -85,11 +87,12 @@ export default function Navbar() {
             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+        <div className="hidden lg:flex lg:justify-end">
           {routes.map((e) => 
-            !e.isHidden && <Link to={e.to} key={e.label} className="flex text-sm font-semibold leading-6 text-gray-900 pr-5">
+            !e.isHidden && <Link to={e.to} key={e.label} className="flex text-sm font-semibold leading-6 text-gray-900 rounded-lg px-3 py-2.5 hover:bg-gray-100">
               {e.label}
               {e?.type === 'profile' && <ArrowRightStartOnRectangleIcon className="ml-2 h-6 w-6" onClick={logout}  />}
+              {e?.type === 'requests' && unreadRequests && <ExclamationCircleIcon className="ml-2 h-6 w-6 text-red-500" onClick={logout}  />}
             </Link>
           )}
         </div>
