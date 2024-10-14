@@ -34,6 +34,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/add-book" element={<AddBookPage />} />
+            <Route path="/add-book/:id" element={<AddBookPage />} />
             <Route path="/requests" element={<RequestsPage />} />
             <Route path="/about" element={<AboutPage />} />
           </Routes>

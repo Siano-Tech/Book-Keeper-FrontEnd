@@ -20,6 +20,16 @@ export const addBook = createAsyncThunk('books/addBook', async (bookData) => {
   }
 });
 
+export const updateBook = createAsyncThunk('books/updateBook', async (bookData) => {
+  try {
+    const response = await axios.put('/api/books/update/'+bookData.id, bookData);
+    console.log('Update Book Response : ', response.data);
+    return { data: response.data, status: response.status };
+  } catch (error) {
+    return { data: error.data ?? error.response.data, status: error.status }
+  }
+});
+
 export const fetchBooks = createAsyncThunk('books/fetchBooks', async () => {
   try {
     const response = await axios.get('/api/books/all');
@@ -34,6 +44,16 @@ export const markBookAsSold = createAsyncThunk('books/markBookAsSold', async (bo
   try {
     const response = await axios.put(`/api/books/mark-sold/${bookId}`);
     console.log('Mark Book as Sold Response : ', response.data);
+    return { data: response.data, status: response.status };
+  } catch (error) {
+    return { data: error.data ?? error.response.data, status: error.status }
+  }
+});
+
+export const deleteBook = createAsyncThunk('books/deleteBook', async (bookId) => {
+  try {
+    const response = await axios.delete(`/api/books/delete/${bookId}`);
+    console.log('Delete Book Response : ', response.data);
     return { data: response.data, status: response.status };
   } catch (error) {
     return { data: error.data ?? error.response.data, status: error.status }
@@ -158,6 +178,50 @@ const bookSlice = createSlice({
         }
       })
       .addCase(markBookAsSold.rejected, (state, action) => {
+        state.status = action.payload?.data?.message ?? 'Server Error! Please try again after sometime';
+        state.error = action.error?.message ?? 'Server Error! Please try again after sometime';
+        toast.remove();
+        toast.error(state.status);
+      })
+      .addCase(updateBook.pending, (state) => {
+        state.status = 'updating book...';
+        toast.loading(state.status);
+      })
+      .addCase(updateBook.fulfilled, (state, action) => {
+        toast.remove();
+        if(action.payload.status === 200 || action.payload.status === 201) {
+          state.status = action.payload.data.message;
+          state.navigateTo = '/';
+          toast.success(state.status);
+        } else {
+          state.status = action.payload.data.message;
+          toast.error(state.status);
+        }
+      })
+      .addCase(updateBook.rejected, (state, action) => {
+        state.status = action.payload?.data?.message ?? 'Server Error! Please try again after sometime';
+        state.error = action.error?.message ?? 'Server Error! Please try again after sometime';
+        toast.remove();
+        toast.error(state.status);
+      })
+      .addCase(deleteBook.pending, (state) => {
+        state.status = 'deleting book...';
+        toast.loading(state.status);
+      })
+      .addCase(deleteBook.fulfilled, (state, action) => {
+        toast.remove();
+        if(action.payload.status === 200 || action.payload.status === 201) {
+          state.status = action.payload.data.message;
+          const bookId = action.payload.id;
+          state.books = state.books.filter((book) => book.id !== bookId);
+          state.orgBooks = state.books;
+          toast.success(state.status);
+        } else {
+          state.status = action.payload.data.message;
+          toast.error(state.status);
+        }
+      })
+      .addCase(deleteBook.rejected, (state, action) => {
         state.status = action.payload?.data?.message ?? 'Server Error! Please try again after sometime';
         state.error = action.error?.message ?? 'Server Error! Please try again after sometime';
         toast.remove();

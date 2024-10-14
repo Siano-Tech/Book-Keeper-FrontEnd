@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addBook } from '../features/bookSlice';
-import { Link } from 'react-router-dom';
+import { addBook, updateBook } from '../features/bookSlice';
+import { Link, useParams } from 'react-router-dom';
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 import { useNavigate } from "react-router-dom";
 import { generateUid, getUserId } from '../utils/Utils';
@@ -20,8 +20,28 @@ const AddBookPage = () => {
   const navigate = useNavigate();
   const donorId = getUserId();
   const [uploadProgress, setUploadProgress] = useState();
-  const [downloadURL, setDownloadURL] = useState('');
-  const { navigateTo } = useSelector(state => state.books);
+  const [downloadURL, setDownloadURL] = useState();
+  const { navigateTo, books } = useSelector(state => state.books);
+  const [editingBook, setEditingBook] = useState();
+
+  const params = useParams();
+  const { id } = params;
+
+  useEffect(() => {
+   if(id) {
+    const book = books.find(e => e.id === id);
+    console.log('Selected Book : ', book);
+    setEditingBook(book);
+    if(book) {
+      setBookType(book.bookType);
+      setSubject(book.subject);
+      setGrade(book.grade);
+      setBookDesc(book.bookDesc);
+      setImage(book.image);
+      setImageFile(book.image);
+    }
+   } 
+  }, [id])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,8 +53,12 @@ const AddBookPage = () => {
     //   toast.error('Cover Photo Required');
     //   return;
     // }
-    const bookId = generateUid();
-    dispatch(addBook({ bookType, subject, grade, bookDesc, image: downloadURL, bookId, donorId }));
+    if(id) {
+      dispatch(updateBook({...editingBook, bookType, subject, grade, bookDesc, image: downloadURL || image}));
+    } else {
+      const bookId = generateUid();
+      dispatch(addBook({ bookType, subject, grade, bookDesc, image: downloadURL, bookId, donorId }));
+    }
   };
   
   if(navigateTo) {
@@ -66,7 +90,7 @@ const AddBookPage = () => {
       <form onSubmit={handleSubmit}>
         <div className="space-y-8">
           <div className="border-b border-gray-900/10 pb-12">
-            <h2 className="text-2xl font-semibold leading-7 text-gray-900">Add Book</h2>
+            <h2 className="text-2xl font-semibold leading-7 text-gray-900">{id ? 'Edit' : 'Add'} Book</h2>
             <p className="mt-1 text-sm leading-6 text-gray-600">
               Please provide the information of the book, this information will be displayed on this platform so be careful what you share.
             </p>
@@ -328,7 +352,7 @@ const AddBookPage = () => {
             type="submit"
             className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            Upload
+            {id ? 'Update' : 'Upload'}
           </button>
         </div>
       </form>

@@ -14,14 +14,20 @@ import {
   MenuItem,
   MenuItems,
 } from '@headlessui/react'
-import { XMarkIcon } from '@heroicons/react/24/outline'
+import { EllipsisVerticalIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
 import RequestBookDialog from '../components/RequestBookDialog';
 import { fetchRequests, requestBook } from '../features/requestSlice';
 import { getUser } from '../utils/Utils';
 import BookInfoDialog from '../components/BookInfoDialog';
 import { filters, sortOptions, subCategories } from '../utils/Data';
-import placeholder from '../assets/placeholder.jpg'
+import placeholder from '../assets/placeholder.jpg';
+import {
+  ArchiveBoxXMarkIcon,
+  PencilIcon,
+  Square2StackIcon,
+  TrashIcon,
+} from '@heroicons/react/16/solid';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -114,6 +120,52 @@ const HomePage = () => {
   // );
 
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+
+  const renderMenu = (product) => {
+    return(
+      <Menu>
+        <MenuButton 
+          className="absolute right-5 mt-2 mr-2 inline-flex items-center gap-2 rounded-md bg-gray-800 p-0.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-700 data-[open]:bg-gray-700 data-[focus]:outline-1 data-[focus]:outline-white">
+          <EllipsisVerticalIcon className="size-5 fill-white/60" />
+        </MenuButton>
+        <MenuItems
+          transition
+          anchor="bottom end"
+          className="w-52 origin-top-right rounded-xl border border-white/5 bg-gray-800 p-1 text-sm/6 text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
+        >
+          <MenuItem>
+            <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
+              <PencilIcon className="size-4 fill-white/30" />
+              Edit
+              <kbd className="ml-auto hidden font-sans text-xs text-white/50 group-data-[focus]:inline">⌘E</kbd>
+            </button>
+          </MenuItem>
+          <MenuItem>
+            <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
+              <Square2StackIcon className="size-4 fill-white/30" />
+              Duplicate
+              <kbd className="ml-auto hidden font-sans text-xs text-white/50 group-data-[focus]:inline">⌘D</kbd>
+            </button>
+          </MenuItem>
+          <div className="my-1 h-px bg-white/5" />
+          <MenuItem>
+            <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
+              <ArchiveBoxXMarkIcon className="size-4 fill-white/30" />
+              Archive
+              <kbd className="ml-auto hidden font-sans text-xs text-white/50 group-data-[focus]:inline">⌘A</kbd>
+            </button>
+          </MenuItem>
+          <MenuItem>
+            <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
+              <TrashIcon className="size-4 fill-white/30" />
+              Delete
+              <kbd className="ml-auto hidden font-sans text-xs text-white/50 group-data-[focus]:inline">⌘D</kbd>
+            </button>
+          </MenuItem>
+        </MenuItems>
+      </Menu>
+    )
+  }
 
   return (
     <div className="bg-white">
@@ -325,7 +377,10 @@ const HomePage = () => {
               <div className="lg:col-span-3">
                 <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                   {books.map((product) => (
-                    <div key={product.id} className="group relative" onClick={(e) => {e.stopPropagation(); setShowInfoDialog(!showInfoDialog); setBookInfoDialog(product)}}>
+                    <div 
+                      key={product.id} className="group relative cursor-pointer" 
+                      onClick={(e) => {e.stopPropagation(); setShowInfoDialog(!showInfoDialog); setBookInfoDialog(product)}}
+                    >
                       <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md lg:aspect-none group-hover:opacity-75 lg:h-80">
                         <img
                           src={product.image !== '' ? product.image : placeholder}
