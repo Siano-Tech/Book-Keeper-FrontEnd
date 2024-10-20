@@ -71,46 +71,65 @@ const bookSlice = createSlice({
     filterBooks(state, action) {
       toast.loading('Filtering books...');
       const {gradeFilter, subjectFilter, typeFilter} = action.payload;
+      // let search = gradeFilter + ', ' + subjectFilter + ', ' + typeFilter;
+      let searchArr = [];
+      if(gradeFilter.length > 0) {
+        searchArr.push(gradeFilter);
+      }
+      if(subjectFilter.length > 0) {
+        searchArr.push(subjectFilter);
+      }
+      if(typeFilter.length > 0) {
+        searchArr.push(typeFilter.toLowerCase());
+      }
+      const search = searchArr.join(', ')
+      // try {
+      //   let filteredBooks = [];
+      //   if(gradeFilter.length !== 0) {
+      //     filteredBooks = state.orgBooks.filter((e) => {
+      //       if(gradeFilter.includes(e.grade)) {
+      //         return e
+      //       }
+      //     })
+      //   }
+      //   if(subjectFilter.length !== 0) {
+      //     if(filteredBooks.length === 0) {
+      //       filteredBooks = state.orgBooks.filter((e) => {
+      //         if(subjectFilter.toLowerCase().includes(e.subject.toLowerCase())) {
+      //           return e
+      //         }
+      //       })
+      //     } else {
+      //       filteredBooks = filteredBooks.filter((e) => {
+      //         if(subjectFilter.toLowerCase().includes(e.subject.toLowerCase())) {
+      //           return e
+      //         }
+      //       })
+      //     }
+      //   }
+      //   if(typeFilter.length !== 0) {
+      //     if(filteredBooks.length === 0) {
+      //       filteredBooks = state.orgBooks.filter((e) => {
+      //         if(typeFilter.toLowerCase().includes(e.bookType.toLowerCase())) {
+      //           return e
+      //         }
+      //       })
+      //     } else {
+      //       filteredBooks = filteredBooks.filter((e) => {
+      //         if(typeFilter.toLowerCase().includes(e.bookType.toLowerCase())) {
+      //           return e
+      //         }
+      //       })
+      //     }
+      //   }
+      //   state.books = (gradeFilter.length > 0 || subjectFilter.length > 0 || typeFilter.length > 0) ? filteredBooks : state.orgBooks;
+      // } catch (error) {
+      //   state.books = state.orgBooks;
+      // }
+
       try {
-        let filteredBooks = [];
-        if(gradeFilter.length !== 0) {
-          filteredBooks = state.orgBooks.filter((e) => {
-            if(gradeFilter.includes(e.grade)) {
-              return e
-            }
-          })
-        }
-        if(subjectFilter.length !== 0) {
-          if(filteredBooks.length === 0) {
-            filteredBooks = state.orgBooks.filter((e) => {
-              if(subjectFilter.toLowerCase().includes(e.subject.toLowerCase())) {
-                return e
-              }
-            })
-          } else {
-            filteredBooks = filteredBooks.filter((e) => {
-              if(subjectFilter.toLowerCase().includes(e.subject.toLowerCase())) {
-                return e
-              }
-            })
-          }
-        }
-        if(typeFilter.length !== 0) {
-          if(filteredBooks.length === 0) {
-            filteredBooks = state.orgBooks.filter((e) => {
-              if(typeFilter.toLowerCase().includes(e.bookType.toLowerCase())) {
-                return e
-              }
-            })
-          } else {
-            filteredBooks = filteredBooks.filter((e) => {
-              if(typeFilter.toLowerCase().includes(e.bookType.toLowerCase())) {
-                return e
-              }
-            })
-          }
-        }
-        state.books = (gradeFilter.length > 0 || subjectFilter.length > 0 || typeFilter.length > 0) ? filteredBooks : state.orgBooks;
+        let books = state.orgBooks.filter(e => e.grade.toLowerCase().includes(gradeFilter) && e.subject.toLowerCase().includes(subjectFilter) && e.bookType.toLowerCase().includes(typeFilter.toLowerCase()) );
+        state.books = books;
       } catch (error) {
         state.books = state.orgBooks;
       }
@@ -147,8 +166,18 @@ const bookSlice = createSlice({
       })
       .addCase(fetchBooks.fulfilled, (state, action) => {
         if(action.payload.status === 200 || action.payload.status === 201) {
-          state.books = action.payload.data;
-          state.orgBooks = state.books;
+          const books = action.payload.data;
+          if(books.length > 0) {
+            books.map(e => {
+              const searchTerm = e.grade + ', ' + e.subject + ', ' + e.bookType;
+              e.searchTerm = searchTerm;
+              return e;
+            });
+          } else {
+            books = [];
+          }
+          state.books = books;
+          state.orgBooks = books;
         } else {
           state.status = action.payload.data.message;
           toast.error(state.status);

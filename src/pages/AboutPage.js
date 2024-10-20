@@ -23,10 +23,10 @@ export const AboutPage = () => {
                     old question papers, study material, references etc., to students of the younger grades, <b><i>absolutely
                     free of cost</i></b>, instead of discarding it in a wasteful manner or not knowing what to do with it at the
                     end of the academic year. Thereby, providing the receiving student a portal to finally get treasured
-                    study material from their seniors being just a click away."
+                    study material from their seniors being just a click away.
                 </div>
                 <div className="mt-2">
-                    "This idea has arisen from the struggle of procuring  desperately needed study material faced by myself and many more students over the years."
+                    This idea has arisen from the struggle of procuring  desperately needed study material faced by myself and many more students over the years."
                 </div>
                 <h1 className='mt-5 color-primary text-xl'>- Anjan Bhat</h1>
                 <div className='mt-2'>

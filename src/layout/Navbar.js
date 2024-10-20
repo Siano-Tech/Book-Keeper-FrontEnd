@@ -11,6 +11,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { getUser, isLoggedIn, onLogout } from '../utils/Utils'
 import { ArrowRightStartOnRectangleIcon, ExclamationCircleIcon } from '@heroicons/react/24/solid'
 import { useSelector } from 'react-redux'
+import LogoutDialog from '../components/LogoutDialog'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -54,6 +55,7 @@ const routes = [
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const {unreadRequests} = useSelector(state => state.requests);
+  const [openConfirmation, setOpenConfirmation] = useState(false);
   let location = useLocation();
   let navigate = useNavigate();
 
@@ -91,8 +93,8 @@ export default function Navbar() {
           {routes.map((e) => 
             !e.isHidden && <Link to={e.to} key={e.label} className="flex text-sm font-semibold leading-6 text-gray-900 rounded-lg px-3 py-2.5 hover:bg-gray-100">
               {e.label}
-              {e?.type === 'profile' && <ArrowRightStartOnRectangleIcon className="ml-2 h-6 w-6" onClick={logout}  />}
-              {e?.type === 'requests' && unreadRequests && <ExclamationCircleIcon className="ml-2 h-6 w-6 text-red-500" onClick={logout}  />}
+              {e?.type === 'profile' && <ArrowRightStartOnRectangleIcon className="ml-2 h-6 w-6" onClick={() => setOpenConfirmation(true)}  />}
+              {e?.type === 'requests' && unreadRequests && <ExclamationCircleIcon className="ml-2 h-6 w-6 text-red-500" onClick={() => setOpenConfirmation(true)}  />}
             </Link>
           )}
         </div>
@@ -128,7 +130,7 @@ export default function Navbar() {
                     className="flex -mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                   >
                     {e.label}
-                    {e?.type === 'profile' && <ArrowRightStartOnRectangleIcon className="ml-5 h-6 w-6" onClick={logout} />}
+                    {e?.type === 'profile' && <ArrowRightStartOnRectangleIcon className="ml-5 h-6 w-6" onClick={() => setOpenConfirmation(true)} />}
                   </Link>
                 )}
               </div>
@@ -136,6 +138,11 @@ export default function Navbar() {
           </div>
         </DialogPanel>
       </Dialog>
+      <LogoutDialog
+        open={openConfirmation} 
+        onClose={(e) => setOpenConfirmation(false)}
+        onLougout={logout}
+      />
     </header>
   )
 }

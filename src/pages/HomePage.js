@@ -371,6 +371,12 @@ const HomePage = () => {
                     )}
                   </Disclosure>
                 ))}
+                <button 
+                  onClick={(e) => setSelectedFilters(filters)}
+                  className="mt-5 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  Clear Filters
+                </button>
               </form>}
 
               {/* Product grid */}
@@ -401,7 +407,7 @@ const HomePage = () => {
                         </div>
                         <button 
                           onClick={(e) => onRequestBook(e, product)}
-                          className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                          className="rounded-md bg-indigo-600 px-2 text-xs sm:px-3 sm:py-2 sm:text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >
                           Request
                         </button>
@@ -415,7 +421,8 @@ const HomePage = () => {
                   ))}
                   <BookInfoDialog 
                     showInfoDialog={showInfoDialog} 
-                    toggleInfoDialog={() => setShowInfoDialog(false)} 
+                    toggleInfoDialog={() => setShowInfoDialog(false)}
+                    onRequestBook={() => setShowRequestDialog(true)}
                     book={bookInfo}
                   />
                   {books.length === 0 && <h2 id="products-heading">
