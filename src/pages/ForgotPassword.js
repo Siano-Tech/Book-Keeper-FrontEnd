@@ -19,7 +19,7 @@ const ForgotPasswordPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if(!accountVerified) {
-        dispatch(verifyAccount({ email }));
+        dispatch(verifyAccount({ email, phoneNo }));
     } else {
         if(password === confirmPassword) {
             dispatch(changePassword({ email, phoneNo, password, confirmPassword }));

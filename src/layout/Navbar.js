@@ -40,7 +40,7 @@ const routes = [
     isHidden: false
   },
   {
-    label: 'Sign In',
+    label: 'Contribute/ Sign In',
     to: '/login',
     isHidden: isLoggedIn()
   },

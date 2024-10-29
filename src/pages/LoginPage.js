@@ -42,7 +42,7 @@ const LoginPage = () => {
           Bishop Cotton Boys' School
         </h2>
         <h2 className="mt-3 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Sign in to your account
+          Sign in to your Free Books Depository account
         </h2>
       </div>
       <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">

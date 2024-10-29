@@ -21,7 +21,7 @@ function App() {
       <Router>
         <div className="mx-auto max-w-7xl">
           <Toaster
-            position="bottom-right"
+            position="top-center"
             reverseOrder={false}
             toastOptions={{
               duration: 3000

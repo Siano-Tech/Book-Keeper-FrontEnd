@@ -30,7 +30,7 @@ export const AboutPage = () => {
                 </div>
                 <h1 className='mt-5 color-primary text-xl'>- Anjan Bhat</h1>
                 <div className='mt-2'>
-                    Note:
+                    Disclaimer:
                     <span>
                         <ul>
                             <li>* Bishop Cotton Boys' School and its administration is Not responsible for this books exchange process.</li>

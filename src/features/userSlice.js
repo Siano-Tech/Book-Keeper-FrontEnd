@@ -33,6 +33,7 @@ export const loginUser = createAsyncThunk('user/loginUser', async (userData) => 
 });
 
 export const verifyAccount = createAsyncThunk('user/verifyAcc', async (userData) => {
+  console.log(userData)
   try {
     const response = await axios.post('/api/users/verifyAcc', userData);
     console.log('Verify Acc Response : ', response.data);
