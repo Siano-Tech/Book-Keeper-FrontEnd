@@ -5,7 +5,7 @@ import { Link, useParams } from 'react-router-dom';
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 import { useNavigate } from "react-router-dom";
 import { generateUid, getUserId } from '../utils/Utils';
-import { UploadFile } from '../utils/UploadFile';
+import { RemoveFile, UploadFile } from '../utils/UploadFile';
 import toast from 'react-hot-toast';
 import { filters } from '../utils/Data';
 
@@ -72,6 +72,12 @@ const AddBookPage = () => {
       setImageFile(URL.createObjectURL(e.target.files[0]));
     };
     handleUpload(e.target.files[0]);
+  }
+
+  const onRemoveImageFile = () => {
+    RemoveFile(image[0]);
+    setImageFile();
+    setDownloadURL();
   }
 
   const handleUpload = (file) => {
@@ -176,7 +182,7 @@ const AddBookPage = () => {
                   <div className="text-center">
                     {!imageFile && <PhotoIcon className="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" /> }
                     {imageFile && <img width={300} src={imageFile} />}
-                    <div className="mt-4 flex justify-center text-sm leading-6 text-gray-600">
+                    {!imageFile && <div className="mt-4 flex justify-center text-sm leading-6 text-gray-600">
                       <label
                         htmlFor="file-upload"
                         className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
@@ -188,10 +194,17 @@ const AddBookPage = () => {
                         />
                       </label>
                       <p className="pl-1">or drag and drop</p>
-                    </div>
-                    <div className="flex justify-center text-sm leading-6 text-gray-600">
+                    </div>}
+                    {!imageFile && <div className="flex justify-center text-sm leading-6 text-gray-600">
                       <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
-                    </div>
+                    </div>}
+                    {imageFile && <label
+                        htmlFor="file-upload"
+                        className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                        onClick={onRemoveImageFile}
+                      >
+                        <span>Remove Image</span>
+                    </label>}
                     {(uploadProgress > 0 && uploadProgress < 100) && <div>
                       {/* <progress value={uploadProgress} max="100" style={{height: '5px'}} /> */}
                       <div className="bg-white rounded-xl shadow-sm overflow-hidden p-1">

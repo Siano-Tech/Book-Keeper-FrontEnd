@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser, registerUser } from '../features/userSlice';
+import { loginUser, registerUser, sendInviteEmail } from '../features/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeftCircleIcon, EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { navigateTo } = useSelector(state => state.user);
+  const { navigateTo, showVerificationCodeInput } = useSelector(state => state.user);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNo, setPhoneNo] = useState('');
   const [password, setPassword] = useState('');
+  const [verificationCode, setVerificationCode] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [hasAccount, setHasAccount] = useState(true);
   const [forgotPassword, setForgotPassword] = useState(false);
@@ -21,14 +22,24 @@ const LoginPage = () => {
     if(hasAccount) {
       dispatch(loginUser({ phoneNo, password }));
     } else {
-      dispatch(registerUser({ name, email, phoneNo, password }));
+      if(showVerificationCodeInput) {
+        dispatch(registerUser({ name, email, phoneNo, password, verificationCode }));
+      } else {
+        dispatch(sendInviteEmail({ name, email, phoneNo, password }));
+      }
     }
   }
 
-  if(navigateTo) {
-    navigate(navigateTo);
-    window.location.reload();
-  }
+  useEffect(() => {
+    if(navigateTo) {
+      if(navigateTo === '/login') {
+        setHasAccount(true);
+      } else {
+        navigate(navigateTo);
+        window.location.reload();
+      }
+    }
+  }, [navigateTo])
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -128,6 +139,23 @@ const LoginPage = () => {
               </div>
             </div>
           </div>
+          {!hasAccount && showVerificationCodeInput && <div>
+            <label htmlFor="verificationCode" className="block text-sm font-medium leading-6 text-gray-900">
+              Verification Code
+            </label>
+            <div className="mt-2">
+              <input
+                id="verificationCode"
+                name="verificationCode"
+                type="text"
+                autoComplete="verificationCode"
+                value={verificationCode}
+                onChange={(e) => setVerificationCode(e.target.value)}
+                required
+                className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>}
           <div>
             <button
               type="submit"

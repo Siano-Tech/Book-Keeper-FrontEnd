@@ -1,4 +1,4 @@
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
 import { storage } from "../config/firebase";
 import { getUserId } from "./Utils";
 
@@ -64,4 +64,14 @@ export const UploadFile = ( file, statusCallback , progressCallback, completedCa
         }
     );  
 
+}
+
+export const RemoveFile = (file) => {
+    const storageRef = ref(storage, 'book-cover' + `/${getUserId()}/` + file.name);
+    // Delete the file
+    deleteObject(storageRef).then(() => {
+        console.log('File deleted successfully')
+    }).catch((error) => {
+        // Uh-oh, an error occurred!
+    });
 }

@@ -9,13 +9,24 @@ const initialState = {
   status: null,
   error: null,
   navigateTo: null,
-  accountVerified: false
+  accountVerified: false,
+  showVerificationCodeInput: false
 };
 
 export const registerUser = createAsyncThunk('user/registerUser', async (userData) => {
   try {
-    const response = await axios.post('/api/users/register', userData);
-    console.log('Register Response : ', response.data);
+    const response = await axios.post('/api/users/verifyUser', userData);
+    console.log('Register/ Verify User Response : ', response.data);
+    return { data: response.data, status: response.status };
+  } catch (error) {
+    return { data: error.data ?? error.response.data, status: error.status }
+  }
+});
+
+export const sendInviteEmail = createAsyncThunk('user/sendInviteEmail', async (userData) => {
+  try {
+    const response = await axios.post('/api/users/sendInviteEmail', userData);
+    console.log('Invitation Response : ', response.data);
     return { data: response.data, status: response.status };
   } catch (error) {
     return { data: error.data ?? error.response.data, status: error.status }
@@ -85,6 +96,29 @@ const userSlice = createSlice({
       .addCase(registerUser.rejected, (state, action) => {
         state.status = action.payload?.data?.message ?? 'Server Error! Please try again after sometime';
         state.error = action.error?.message ?? 'Server Error! Please try again after sometime';
+        toast.remove();
+        toast.error(state.status);
+      })
+      .addCase(sendInviteEmail.pending, (state) => {
+        state.status = 'Registering...';
+        toast.loading(state.status);
+      })
+      .addCase(sendInviteEmail.fulfilled, (state, action) => {
+        toast.remove();
+        if(action.payload.status === 200 || action.payload.status === 201) {
+          state.status = action.payload.data.message;
+          state.showVerificationCodeInput = true;
+          toast.success(state.status);
+        } else {
+          state.showVerificationCodeInput = false;
+          state.status = action.payload.data.message;
+          toast.error(state.status);
+        }
+      })
+      .addCase(sendInviteEmail.rejected, (state, action) => {
+        state.status = action.payload?.data?.message ?? 'Server Error! Please try again after sometime';
+        state.error = action.error?.message ?? 'Server Error! Please try again after sometime';
+        state.showVerificationCodeInput = false;
         toast.remove();
         toast.error(state.status);
       })
