@@ -35,7 +35,7 @@ const RequestsPage = () => {
       <h1 className="text-2xl font-bold">Book Requests</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 mb-20">
         {requests.map((request) => (
-          <div key={request.id} className="flex flex-col p-4 border rounded shadow">
+          request.status !== 'complete' && <div key={request.id} className="flex flex-col p-4 border rounded shadow">
             <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md lg:aspect-none group-hover:opacity-75 lg:h-40">
               <img
                 src={request?.bookDetails?.image !== '' ? request?.bookDetails?.image : placeholder}

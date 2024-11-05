@@ -112,7 +112,7 @@ export default function BookInfoDialog(props) {
                         <div className="mt-5">
                           <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md lg:aspect-none group-hover:opacity-75 lg:h-80">
                               <img
-                              src={props?.book?.image.length === 0 ? placeholder : props?.book?.image}
+                              src={props?.book?.image === '' ? placeholder : props?.book?.image}
                               // alt={props?.book?.imageAlt}
                               className="h-full w-full object-contain object-center lg:h-full lg:w-full"
                               />
