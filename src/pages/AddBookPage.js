@@ -37,7 +37,7 @@ const AddBookPage = () => {
       setSubject(book.subject);
       setGrade(book.grade);
       setBookDesc(book.bookDesc);
-      setImage(book.image);
+      setImage(book.image||'');
       setImageFile(book.image);
     }
    } 
