@@ -261,7 +261,7 @@ const HomePage = () => {
 
             <div className="flex items-center">
               <Menu as="div" className="relative inline-block text-left">
-                <div>
+                {/* <div>
                   <MenuButton className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
                     Sort
                     <ChevronDownIcon
@@ -269,7 +269,7 @@ const HomePage = () => {
                       aria-hidden="true"
                     />
                   </MenuButton>
-                </div>
+                </div> */}
 
                 <MenuItems
                   transition
