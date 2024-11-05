@@ -166,7 +166,7 @@ const bookSlice = createSlice({
       })
       .addCase(fetchBooks.fulfilled, (state, action) => {
         if(action.payload.status === 200 || action.payload.status === 201) {
-          const books = action.payload.data;
+          let books = action.payload.data;
           if(books.length > 0) {
             books.map(e => {
               const searchTerm = e.grade + ', ' + e.subject + ', ' + e.bookType;
